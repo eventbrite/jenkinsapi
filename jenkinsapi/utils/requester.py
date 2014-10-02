@@ -55,7 +55,10 @@ class Requester(object):
                 headers, dict), 'headers must be a dict, got %s' % repr(headers)
             requestKwargs['headers'] = headers
 
-        requestKwargs['verify'] = self.ssl_verify
+        # OPS-5045 Remove ssl_verify=True from kwargs as it hits a bug in the 
+        # required version of requests' library logic that makes it ignore our
+        # self-signed cert setting. Refer to the ticket for logic details.
+        #requestKwargs['verify'] = self.ssl_verify
 
         if not data is None:
             # It may seem odd, but some Jenkins operations require posting
